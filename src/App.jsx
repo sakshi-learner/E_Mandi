@@ -1,41 +1,42 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "./context/AuthContext";
+import Navbar from "./components/Navbar";
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
-import FarmerDashboard from "./pages/farmer/FarmerDashboard";
 import BuyerDashboard from "./pages/buyer/BuyerDashboard";
-import ProtectedRoute from "./components/ProtectedRoute";
-import Navbar from "./components/Navbar";
+import FarmerDashboard from "./pages/farmer/FarmerDashboard";
 
-export default function App() {
+function App() {
+  const { user } = useAuth();
+
   return (
     <>
       <Navbar />
-
       <Routes>
-        {/* DEFAULT ROUTE */}
-        <Route path="/" element={<Navigate to="/login" />} />
+        {!user && (
+          <>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="*" element={<Navigate to="/login" />} />
+          </>
+        )}
 
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        {user?.role === "buyer" && (
+          <>
+            <Route path="/buyer" element={<BuyerDashboard />} />
+            <Route path="*" element={<Navigate to="/buyer" />} />
+          </>
+        )}
 
-        <Route
-          path="/farmer"
-          element={
-            <ProtectedRoute role="farmer">
-              <FarmerDashboard />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/buyer"
-          element={
-            <ProtectedRoute role="buyer">
-              <BuyerDashboard />
-            </ProtectedRoute>
-          }
-        />
+        {user?.role === "farmer" && (
+          <>
+            <Route path="/farmer" element={<FarmerDashboard />} />
+            <Route path="*" element={<Navigate to="/farmer" />} />
+          </>
+        )}
       </Routes>
     </>
   );
 }
+
+export default App;

@@ -12,7 +12,6 @@ export const login = (email, password, role) => {
   const user = users.find(
     (u) => u.email === email && u.password === password && u.role === role
   );
-
   if (user) {
     localStorage.setItem("loggedInUser", JSON.stringify(user));
     return true;
