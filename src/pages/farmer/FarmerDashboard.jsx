@@ -78,7 +78,7 @@ export default function FarmerDashboard() {
 
       {/* Add / Update Product */}
       <div className="bg-white rounded-xl shadow p-4 max-w-xl mb-6">
-        {["name", "price", "image", "contact"].map((f) => (
+        {["name","tag","type","price","weight","location", "image", "contact"].map((f) => (
           <input
             key={f}
             className="w-full border rounded-lg px-3 py-2 mt-2 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -142,6 +142,9 @@ export default function FarmerDashboard() {
         ))}
       </div>
 
+      <hr className="m-5"/>
+      
+
       {/* Notifications */}
       <h3 className="font-semibold mt-10 mb-3 text-lg">
         🔔 Order Notifications
@@ -183,6 +186,7 @@ export default function FarmerDashboard() {
           </div>
         ))}
 
+      <hr className="m-5"/>  
       {/* Sale History */}
       <h3 className="font-semibold mt-10 mb-3 text-lg">
         📦 Sale History

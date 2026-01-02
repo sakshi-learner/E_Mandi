@@ -85,6 +85,8 @@ export default function BuyerDashboard() {
         ))}
       </div>
 
+      <hr className="m-5"/>
+
       {/* Order History */}
       <h3 className="font-semibold mt-8 mb-2">🛒 My Orders</h3>
 
