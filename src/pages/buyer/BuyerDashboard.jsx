@@ -12,6 +12,10 @@ export default function BuyerDashboard() {
   const [selected, setSelected] = useState(null);
   const [orders, setOrders] = useState([]);
 
+  const [note, setNote] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+
   useEffect(() => {
     setProducts(getProducts());
     setOrders(getOrdersByBuyer(user.email));
@@ -26,11 +30,14 @@ export default function BuyerDashboard() {
       buyerEmail: user.email,
       farmerEmail: product.farmerEmail,
       farmerName: product.farmer,
+      note: note,
       status: "pending",
       date: new Date().toLocaleString(),
     });
 
     setOrders(getOrdersByBuyer(user.email));
+    setNote("");
+    setSelectedProduct(null);
     alert("Order placed successfully");
   };
 
@@ -76,7 +83,7 @@ export default function BuyerDashboard() {
 
               <button
                 className="btn-primary flex items-center gap-1"
-                onClick={() => handleOrder(p)}
+                onClick={() => setSelectedProduct(p)}
               >
                 <ShoppingCart size={16} /> Order
               </button>
@@ -85,7 +92,7 @@ export default function BuyerDashboard() {
         ))}
       </div>
 
-      <hr className="m-5"/>
+      <hr className="m-5" />
 
       {/* Order History */}
       <h3 className="font-semibold mt-8 mb-2">🛒 My Orders</h3>
@@ -116,8 +123,20 @@ export default function BuyerDashboard() {
               <p><b>Name:</b> {selected.name}</p>
               <p><b>Price:</b> ₹ {selected.price}</p>
               <p><b>Farmer:</b> {selected.farmer}</p>
-              <p><b>Contact:</b> {selected.contact}</p>
+              <p><b>tag:</b> {selected.tag}</p>
+              <p><b>type:</b> {selected.type}</p>
               <p><b>Location:</b> {selected.location}</p>
+              <p className="mt-2">
+                <b>Contact:</b>
+              </p>
+
+              <a
+                href={`tel:${selected.contact}`}
+                className="inline-block mt-1 bg-green-600 text-white px-3 py-1 rounded-lg hover:bg-green-700"
+              >
+                📞 Call Farmer
+              </a>
+
             </>
           )}
         </DialogContent>
@@ -125,6 +144,42 @@ export default function BuyerDashboard() {
           <Button onClick={() => setSelected(null)}>Close</Button>
         </DialogActions>
       </Dialog>
+
+      <Dialog
+        open={!!selectedProduct}
+        onClose={() => setSelectedProduct(null)}
+      >
+        <DialogTitle>
+          Order: {selectedProduct?.name}
+        </DialogTitle>
+
+        <DialogContent>
+          <p className="mb-2 text-sm text-gray-600">
+            You can send a note to the farmer
+          </p>
+
+          <textarea
+            className="w-full border rounded-lg p-2"
+            placeholder="Write a note (optional)"
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+          />
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={() => setSelectedProduct(null)}>
+            Cancel
+          </Button>
+
+          <Button
+            variant="contained"
+            onClick={() => handleOrder(selectedProduct)}
+          >
+            Send Order
+          </Button>
+        </DialogActions>
+      </Dialog>
+
     </div>
   );
 }

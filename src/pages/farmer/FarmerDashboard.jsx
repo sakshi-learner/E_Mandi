@@ -78,7 +78,7 @@ export default function FarmerDashboard() {
 
       {/* Add / Update Product */}
       <div className="bg-white rounded-xl shadow p-4 max-w-xl mb-6">
-        {["name","tag","type","price","weight","location", "image", "contact"].map((f) => (
+        {["name", "tag", "type", "price", "weight", "location", "image", "contact"].map((f) => (
           <input
             key={f}
             className="w-full border rounded-lg px-3 py-2 mt-2 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -142,8 +142,10 @@ export default function FarmerDashboard() {
         ))}
       </div>
 
-      <hr className="m-5"/>
-      
+      <hr className="m-5" />
+
+
+
 
       {/* Notifications */}
       <h3 className="font-semibold mt-10 mb-3 text-lg">
@@ -159,34 +161,34 @@ export default function FarmerDashboard() {
         .map((o) => (
           <div
             key={o.id}
-            className="bg-white rounded-xl shadow p-3 mb-3"
+            className="bg-white rounded-xl shadow p-4 mb-3 border-l-4 border-yellow-400 hover:shadow-lg transition"
           >
-            <p className="font-bold">{o.productName}</p>
-            <p>Buyer: {o.buyerEmail}</p>
-            <p>₹ {o.price}</p>
+            <p className="font-bold text-lg">{o.productName}</p>
+            <p>Buyer: <span className="text-blue-600">{o.buyerEmail}</span></p>
+            {o.note && (
+              <p className="italic text-gray-600 mt-1">📝 Note: {o.note}</p>
+            )}
+            <p className="mt-1 font-semibold">₹ {o.price}</p>
 
-            <div className="flex gap-2 mt-2">
+            <div className="flex gap-2 mt-3">
               <button
-                onClick={() =>
-                  updateOrderStatus(o.id, "confirmed")
-                }
-                className="bg-green-600 text-white px-3 py-1 rounded-lg cursor-pointer hover:bg-green-700 transition"
+                onClick={() => updateOrderStatus(o.id, "confirmed")}
+                className="flex-1 bg-green-600 text-white py-2 rounded-lg cursor-pointer hover:bg-green-700 transition flex justify-center items-center gap-1"
               >
-                Confirm
+                ✅ Confirm
               </button>
               <button
-                onClick={() =>
-                  updateOrderStatus(o.id, "cancelled")
-                }
-                className="border border-gray-400 px-3 py-1 rounded-lg cursor-pointer hover:bg-gray-100 transition"
+                onClick={() => updateOrderStatus(o.id, "cancelled")}
+                className="flex-1 border border-red-500 text-red-600 py-2 rounded-lg cursor-pointer hover:bg-red-50 transition flex justify-center items-center gap-1"
               >
-                Cancel
+                ❌ Cancel
               </button>
             </div>
           </div>
         ))}
 
-      <hr className="m-5"/>  
+
+      <hr className="m-5" />
       {/* Sale History */}
       <h3 className="font-semibold mt-10 mb-3 text-lg">
         📦 Sale History
